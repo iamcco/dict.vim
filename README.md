@@ -1,10 +1,20 @@
-### introduction ###
+### Introduction ###
 
 An simple translation tool which uses the youdao openapi,
 and requires the python feature for your vim/gvim
 and network for your client
 
-### setting ###
+### Installation ###
+
+this plugin requires python feature, you can check with `:echo has('python')`
+
+An easy way to install the plugin is using an package manager like [vundle][vundle]
+
+for vundle:
+
+    Plugin 'iamcco/dict.vim'
+
+### Setting&Usage ###
 
 default setting:
 
@@ -27,3 +37,5 @@ default command:
 
     `command! -nargs=1 Dict call dict#Search(<q-args>)`
     --example: ':Dict hello'
+
+[vundle] https://github.com/gmarik/Vundle.vim "vundle"
