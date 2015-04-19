@@ -8,7 +8,7 @@ and network for your client
 
 this plugin requires python feature, you can check with `:echo has('python')`
 
-An easy way to install the plugin is using an package manager like [vundle](vundle)
+An easy way to install the plugin is using an package manager like [vundle][vundle]
 
 for vundle:
 
