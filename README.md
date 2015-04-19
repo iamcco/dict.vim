@@ -31,14 +31,14 @@
     vmap <silent> <Leader>d <Plug>DictVSearch
     --可视化模式下，<Leader>d 即可翻译选中的文本
 
-在vim配置文件中，可以把 <Leader>d 配置为你喜欢的快捷键
+在vim配置文件中，可以把 `<Leader>d` 配置为你喜欢的快捷键
 
 默认命令：
 
     command! -nargs=1 Dict call dict#Search(<q-args>)
     --使用 :Dict hello
 
-"===============================================================================
+"=============================================================================
 
 ### Introduction ###
 
@@ -79,8 +79,7 @@ default mapping:
     --for V mode, type <Leader>d will translate the word which
     --you have selected
 
-    --you can change the "<Leader>d" for what you want
-    --and save in your vimrc
+you can change the `<Leader>d` for what you want and save in your vimrc
 
 default command:
 
