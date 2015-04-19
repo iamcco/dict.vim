@@ -8,7 +8,7 @@ and network for your client
 
 this plugin requires python feature, you can check with `:echo has('python')`
 
-An easy way to install the plugin is using an package manager like [vundle][vundle]
+An easy way to install the plugin is using an package manager like [vundle](vundle)
 
 for vundle:
 
@@ -38,4 +38,4 @@ default command:
     `command! -nargs=1 Dict call dict#Search(<q-args>)`
     --example: ':Dict hello'
 
-[vundle] https://github.com/gmarik/Vundle.vim "vundle"
+[vundle]: https://github.com/gmarik/Vundle.vim "vundle"
