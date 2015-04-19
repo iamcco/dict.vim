@@ -38,4 +38,4 @@ default command:
     `command! -nargs=1 Dict call dict#Search(<q-args>)`
     --example: ':Dict hello'
 
-[vundle]: https://github.com/gmarik/Vundle.vim "vundle"
+[vundle]: https://github.com/gmarik/Vundle.vim
