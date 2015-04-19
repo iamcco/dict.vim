@@ -20,6 +20,11 @@ default setting:
 
 you can change the default setting as you like
 
+default youdao openapi key:
+
+    let g:api_key = "1932136763"
+    let g:keyfrom = "aioiyuuko"
+
 default mapping:
 
     `nmap <silent> <Leader>d <Plug>DictSearch`
