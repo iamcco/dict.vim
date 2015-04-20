@@ -43,6 +43,15 @@ import sys
 import json
 import urllib2
 
+errorCode = {
+    "0": "success",
+    "20": "要求翻译的文本过长",
+    "30": "无法进行有效的翻译",
+    "40": "不支持的语言类型",
+    "50": "无效的key",
+    "60": "无词典结果，仅在获取词典结果生效",
+    "other": "查询失败，出现未知错误"
+}
 sysencoding = vim.eval("&encoding")
 qw_origin   = vim.eval("a:query_word").decode(sysencoding).encode('utf-8')
 info        = (vim.eval("s:query_url"), vim.eval("g:keyfrom"), vim.eval("g:api_key"), urllib2.quote(qw_origin))
@@ -67,17 +76,17 @@ def show(info_data, qw):
             explains = ''
         print translation, explains
     elif error_code == 20:
-        print decode_zh("要求翻译的文本过长")
+        print decode_zh(errorCode["20"])
     elif error_code == 30:
-        print decode_zh("无法进行有效的翻译")
+        print decode_zh(errorCode["30"])
     elif error_code == 40:
-        print decode_zh("不支持的语言类型")
+        print decode_zh(errorCode["40"])
     elif error_code == 50:
-        print decode_zh("无效的key")
+        print decode_zh(errorCode["50"])
     elif error_code == 60:
-        print decode_zh("无词典结果，仅在获取词典结果生效")
+        print decode_zh(errorCode["60"])
     else:
-        print decode_zh("查询失败，出现未知错误")
+        print decode_zh(errorCode["other"])
 
 def decode_zh(args):
     return args.decode('utf-8')
