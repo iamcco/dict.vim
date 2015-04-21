@@ -38,23 +38,28 @@ endfunction
 
 function! s:Dict_query(query_word)
 python << END
+#-*- coding:utf-8 -*-
+
 import vim
 import sys
 import json
 import urllib2
 
 errorCode = {
-    "0": "success",
-    "20": "要求翻译的文本过长",
-    "30": "无法进行有效的翻译",
-    "40": "不支持的语言类型",
-    "50": "无效的key",
-    "60": "无词典结果，仅在获取词典结果生效",
-    "other": "查询失败，出现未知错误"
+    "0": u"success",
+    "20": u"要求翻译的文本过长",
+    "30": u"无法进行有效的翻译",
+    "40": u"不支持的语言类型",
+    "50": u"无效的key",
+    "60": u"无词典结果，仅在获取词典结果生效",
+    "other": u"查询失败，出现未知错误"
 }
-sysencoding = vim.eval("&encoding")
-qw_origin   = vim.eval("a:query_word").decode(sysencoding).encode('utf-8')
-info        = (vim.eval("s:query_url"), vim.eval("g:keyfrom"), vim.eval("g:api_key"), urllib2.quote(qw_origin))
+vimencoding = vim.eval("&encoding")
+qw_origin   = vim.eval("a:query_word").decode(vimencoding)
+info        = ( vim.eval("s:query_url"), \
+                vim.eval("g:keyfrom"), \
+                vim.eval("g:api_key"), \
+                urllib2.quote(qw_origin.encode('utf-8')))
 query_url   = info[0] % info[1:]
 data_back   = urllib2.urlopen(query_url)
 data_origin = data_back.read()
@@ -66,7 +71,7 @@ def show(info_data, qw):
         translation = []
         for item in info_data["translation"]:
             translation.append(item)
-        translation = qw.decode('utf-8') + ' ==> ' + '\n'.join(translation)
+        translation = qw + ' ==> ' + '\n'.join(translation)
         try:
             explains = []
             for item in info_data["basic"]["explains"]:
@@ -76,20 +81,18 @@ def show(info_data, qw):
             explains = ''
         print translation, explains
     elif error_code == 20:
-        print decode_zh(errorCode["20"])
+        print errorCode["20"]
     elif error_code == 30:
-        print decode_zh(errorCode["30"])
+        print errorCode["30"]
     elif error_code == 40:
-        print decode_zh(errorCode["40"])
+        print errorCode["40"]
     elif error_code == 50:
-        print decode_zh(errorCode["50"])
+        print errorCode["50"]
     elif error_code == 60:
-        print decode_zh(errorCode["60"])
+        print errorCode["60"]
     else:
-        print decode_zh(errorCode["other"])
+        print errorCode["other"]
 
-def decode_zh(args):
-    return args.decode('utf-8')
 if __name__ == "__main__":
     show(data_json, qw_origin)
 
