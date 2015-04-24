@@ -1,51 +1,51 @@
 "===============================================================================
 "File: autoload/dict.vim
-"Description: An translation tool which uses the youdao openapi
-"Last Change: 2015-04-19
+"Description: 简单的翻译插件
+"Last Change: 2015-04-24
 "Maintainer: iamcco <ooiss@qq.com>
 "Github: http://github.com/iamcco <年糕小豆汤>
 "Licence: Vim Licence
-"Version: 0.0.6
+"Version: 1.0.0
 "===============================================================================
 
-if !exists("g:dict_py_version")
-    if has("python")
+if !exists('g:dict_py_version')
+    if has('python')
         let g:dict_py_version = 2
-        let s:py_cmd = "py"
-    elseif has("python3")
+        let s:py_cmd = 'py'
+    elseif has('python3')
         let g:dict_py_version = 3
-        let s:py_cmd = "py3"
+        let s:py_cmd = 'py3'
     else
-        echoerr "Error: dict.vim requires vim has python/python3 features"
+        echoerr 'Error: dict.vim requires vim has python/python3 features'
         finish
     endif
 else
     if g:dict_py_version == 2
-        let s:py_cmd = "py"
+        let s:py_cmd = 'py'
     else
-        let s:py_cmd = "py3"
+        let s:py_cmd = 'py3'
     endif
 endif
 
-"有道openapi key"
-if !exists("g:api_key") || !exists("g:keyfrom")
-    let g:api_key = "1932136763"
-    let g:keyfrom = "aioiyuuko"
+"有道openapi key
+if !exists('g:api_key') || !exists('g:keyfrom')
+    let g:api_key = '1932136763'
+    let g:keyfrom = 'aioiyuuko'
 endif
 
 "有道openapi
-let s:query_url = "http://fanyi.youdao.com/openapi.do?keyfrom=%s&key=%s&type=data&doctype=json&version=1.1&q=%s"
+let s:query_url = 'http://fanyi.youdao.com/openapi.do?keyfrom=%s&key=%s&type=data&doctype=json&version=1.1&q=%s'
 
-function! dict#Search(args) abort
-    let queryWord = substitute(a:args,"^ *\\| *$","","g")
+function! dict#Search(args, searchType) abort
+    let queryWord = substitute(a:args,'^ *\\| *$','','g')
     if queryWord != ''
-        call s:DictSearch(queryWord)
+        call s:DictSearch(queryWord, a:searchType)
     endif
 endfunction
 
-function! dict#VSearch() abort
+function! dict#VSearch(searchType) abort
     let vtext = s:DictGetSelctn()
-    call dict#Search(vtext)
+    call dict#Search(vtext, a:searchType)
 endfunction
 
 function! dict#DictStatusLine(...) abort
@@ -67,7 +67,12 @@ function! s:DictGetSelctn() abort
     let [ln1, col1] = getpos("'<")[1:2]
     let [ln2, col2] = getpos("'>")[1:2]
     let lines = getline(ln1, ln2)
-    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    let stemp = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    if &selection == 'inclusive' && len(strtrans(stemp[len(stemp) - 1:])) == 4
+        let lines[-1] = lines[-1][: col2 + 1]
+    else
+        let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    endif
     let lines[0] = lines[0][col1 - 1:]
     return join(lines, "\n")
 endfunction
@@ -93,16 +98,23 @@ function! s:WinConfig() abort
 endfunction
 
 function! s:OpenWindow() abort
-    exec 'silent keepalt bo split __dictSearch__'
-    call s:WinConfig()
+    let cwin = bufwinnr('__dictSearch__')
+    if cwin == -1
+        silent keepalt bo split __dictSearch__
+        call s:WinConfig()
+        return winnr()
+    else
+        return cwin
+    endif
 endfunction
 
+"python/python3 import init
 exec s:py_cmd . ' import vim'
 exec s:py_cmd . ' import sys'
 exec s:py_cmd . ' cwd = vim.eval("expand(\"<sfile>:p:h\")")'
 exec s:py_cmd . ' sys.path.insert(0,cwd)'
 
-function! s:DictSearch(queryWords) abort
+function! s:DictSearch(queryWords, searchType) abort
 
     exec s:py_cmd . ' from dictpy import search' . g:dict_py_version
     exec s:py_cmd . ' search' . g:dict_py_version . '.dictSearch()'

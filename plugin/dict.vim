@@ -1,14 +1,14 @@
 "===============================================================================
 "File: plugin/dict.vim
-"Description: An translation tool which uses the youdao openapi
-"Last Change: 2015-04-18
+"Description: 简单的翻译插件
+"Last Change: 2015-04-24
 "Maintainer: iamcco <ooiss@qq.com>
 "Github: http://github.com/iamcco <年糕小豆汤>
 "Licence: Vim Licence
-"Version: 0.0.1
+"Version: 1.0.0
 "===============================================================================
 
-if !exists("g:debug_dict") && exists("g:loaded_dict") && !has("python")
+if !exists('g:debug_dict') && exists('g:loaded_dict') && !has('python')
     finish
 endif
 let g:loaded_dict= 1
@@ -24,13 +24,26 @@ if !hasmapto('<Plug>DictVSearch')
     vmap <silent> <Leader>d <Plug>DictVSearch
 endif
 
-nmap <silent> <Plug>DictSearch :call dict#Search(expand("<cword>"))<CR>
-vmap <silent> <Plug>DictVSearch :<C-U>call dict#VSearch()<CR>
-
-if !exists(':Dict')
-    command! -nargs=1 Dict call dict#Search(<q-args>)
+if !hasmapto('<Plug>DictWSearch')
+    nmap <silent> <Leader>w <Plug>DictWSearch
 endif
 
+if !hasmapto('<Plug>DictWVSearch')
+    vmap <silent> <Leader>w <Plug>DictWVSearch
+endif
+
+nmap <silent> <Plug>DictSearch   :call dict#Search(expand("<cword>"), "simple")<CR>
+vmap <silent> <Plug>DictVSearch  :<C-U>call dict#VSearch("simple")<CR>
+nmap <silent> <Plug>DictWSearch  :call dict#Search(expand("<cword>"), "complex")<CR>
+vmap <silent> <Plug>DictWVSearch :<C-U>call dict#VSearch("complex")<CR>
+
+if !exists(':Dict')
+    command! -nargs=1 Dict call dict#Search(<q-args>, 'simple')
+endif
+
+if !exists(':DictW')
+    command! -nargs=1 DictW call dict#Search(<q-args>, 'complex')
+endif
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

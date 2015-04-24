@@ -4,6 +4,7 @@
 并且使用的时候需要网络
 
 ![操作](./operation.gif)
+![操作W](./DictW.gif)
 
 ### 安装 ###
 
@@ -28,64 +29,34 @@
 默认快捷键绑定：
 
     nmap <silent> <Leader>d <Plug>DictSearch
-    --普通模式下，<Leader>d 即可翻译光标下的文本
+    --普通模式下，<Leader>d 即可翻译光标下的文本，并在命令行回显
 
     vmap <silent> <Leader>d <Plug>DictVSearch
-    --可视化模式下，<Leader>d 即可翻译选中的文本
+    --可视化模式下，<Leader>d 即可翻译选中的文本，并在命令行回显
 
-在vim配置文件中，可以把 `<Leader>d` 配置为你喜欢的快捷键
+    nmap <silent> <Plug>DictWSearch
+    --普通模式下，<Leader>w 即可翻译光标下的文本，并且在Dict新窗口显示
+    vmap <silent> <Plug>DictWVSearch
+    --可视化模式下，<Leader>w 即可翻译选中的文本，并且在Dict新窗口显示
+
+*Dict窗口中 `q` 键关闭Dict窗口*
+
+在vim配置文件中，可以把 `<Leader>d` 或者 `<Leader>w` 配置为你设置的快捷键
 
 默认命令：
 
-    command! -nargs=1 Dict call dict#Search(<q-args>)
-    --使用 :Dict hello
+    command! -nargs=1 Dict call dict#Search(<q-args>, 'simple')
+    --使用 :Dict hello 在命令行回显
+    command! -nargs=1 DictW call dict#Search(<q-args>, 'complex')
+    --使用 :DictW hello 在Dict新窗口显示
+
+在vim配置文件中，可以把 `Dict` 或者 `DictW` 配置为你设置的命令
 
 =============================================================================
 
-### Introduction ###
+#### Update: 2015-0424
 
-An simple translation tool which uses the youdao openapi,
-and requires the python feature for your vim/gvim
-and network for your client
+1. 增加python3支持，现在同时支持py2/py3
+2. 增加新窗口显示翻译结果
+3. 修复vim配置`&selection=inclusive`时候选择中文出现bug问题
 
-### Installation ###
-
-this plugin requires python feature, you can check with `:echo has('python')`
-
-An easy way to install the plugin is using an package manager like [vundle][vundle]
-
-for vundle:
-
-    Plugin 'iamcco/dict.vim'
-
-    :PluginInstall
-
-### Setting&Usage ###
-
-default setting:
-
-you can change the default setting as you like
-
-default youdao openapi key:
-
-    let g:api_key = "1932136763"
-    let g:keyfrom = "aioiyuuko"
-
-default mapping:
-
-    nmap <silent> <Leader>d <Plug>DictSearch
-    --for normal mode, type <Leader>d will translate the word
-    --under the cursor
-
-    vmap <silent> <Leader>d <Plug>DictVSearch
-    --for V mode, type <Leader>d will translate the word which
-    --you have selected
-
-you can change the `<Leader>d` for what you want and save in your vimrc
-
-default command:
-
-    `command! -nargs=1 Dict call dict#Search(<q-args>)`
-    --example: ':Dict hello'
-
-[vundle]: https://github.com/gmarik/Vundle.vim
