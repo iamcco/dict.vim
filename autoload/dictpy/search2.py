@@ -19,7 +19,10 @@ def dictSearch():
     initData = cData['info'][1:] + (urllib.quote(queryWords),)
     queryUrl   = cData['info'][0] % initData
     dataBack   = urllib.urlopen(queryUrl).read()
-    dataJson   = json.loads(dataBack)
-    dictShow(dataJson, searchType)
+    try:
+        dataJson   = json.loads(dataBack)
+        dictShow(dataJson, searchType)
+    except ValueError:
+        print(cData['errorCode']['noQuery'])
 
 __all__ = ['dictSearch']

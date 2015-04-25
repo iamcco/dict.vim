@@ -18,7 +18,8 @@ cData = {
         '40': u'不支持的语言类型',
         '50': u'无效的key',
         '60': u'无词典结果，仅在获取词典结果生效',
-        'other': u'查询失败，出现未知错误'
+        'other': u'查询失败，出现未知错误',
+        'noQuery': u"查询失败，有道openapi返回异常"
     },
     'vimEncoding': vim.eval('&encoding'),
     'info': (vim.eval('s:query_url'), vim.eval('g:keyfrom'), vim.eval('g:api_key'))
@@ -73,6 +74,9 @@ def dealComplex(searchResult):
                 cbuf.append(u'      %s：%s' % (eachline[1]['key'], ','.join(eachline[1]['value'])))
     vim.command('0d _')
     vim.command('setl nomodifiable')
+
+def strReplace(searchResult):
+    print(vim.eval("@a"))
 
 def dictShow(searchResult, searchType):
     error_code = searchResult['errorCode']

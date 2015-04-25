@@ -19,7 +19,10 @@ def dictSearch():
     initData = cData['info'][1:] + (request.quote(queryWords.encode('utf-8')),)
     queryUrl   = cData['info'][0] % initData
     dataBack   = request.urlopen(queryUrl).read().decode('utf-8')
-    dataJson   = json.loads(dataBack)
-    dictShow(dataJson, searchType)
+    try:
+        dataJson   = json.loads(dataBack)
+        dictShow(dataJson, searchType)
+    except ValueError:
+        print(cData['errorCode']['noQuery'])
 
 __all__ = ['dictSearch']
