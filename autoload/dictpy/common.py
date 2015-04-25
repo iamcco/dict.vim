@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*-
 
 """
-Last Change: 2015-04-24
+Last Change: 2015-04-25
 Maintainer: iamcco <ooiss@qq.com>
 Github: http://github.com/iamcco <年糕小豆汤>
 Version: 1.0.0
@@ -76,13 +76,21 @@ def dealComplex(searchResult):
     vim.command('setl nomodifiable')
 
 def strReplace(searchResult):
-    print(vim.eval("@a"))
+    tranlas = '\n'.join(searchResult['translation'])
+    tranlas = tranlas.replace('"','\\"').replace("'","\\'")
+    vim.command('let regTmp = @a')
+    vim.command('let @a = "' + tranlas + '"')
+    vim.command('normal gv"ap')
+    vim.command("let @a = regTmp")
+    vim.command("unlet regTmp")
 
 def dictShow(searchResult, searchType):
     error_code = searchResult['errorCode']
     if error_code == 0:
         if searchType == 'simple':
             dealSimple(searchResult)
+        elif searchType == 'replace':
+            strReplace(searchResult)
         else:
             dealComplex(searchResult)
     elif error_code == 20:

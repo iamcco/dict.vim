@@ -1,7 +1,7 @@
 "===============================================================================
 "File: autoload/dict.vim
 "Description: 简单的翻译插件
-"Last Change: 2015-04-24
+"Last Change: 2015-04-25
 "Maintainer: iamcco <ooiss@qq.com>
 "Github: http://github.com/iamcco <年糕小豆汤>
 "Licence: Vim Licence
@@ -51,9 +51,9 @@ endfunction
 function! dict#DictStatusLine(...) abort
     if bufname('%') == '__dictSearch__'
         let w:airline_section_a = 'Dict'
-        let w:airline_section_b = '%{"Result"}'
-        let w:airline_section_c = '%{""}'
-        let w:airline_section_x = '%{""}'
+        let w:airline_section_b = 'Result'
+        let w:airline_section_c = ''
+        let w:airline_section_x = ''
         let w:airline_section_y = ''
     endif
 endfunction
@@ -64,17 +64,11 @@ if exists('g:loaded_airline')
 endif
 
 function! s:DictGetSelctn() abort
-    let [ln1, col1] = getpos("'<")[1:2]
-    let [ln2, col2] = getpos("'>")[1:2]
-    let lines = getline(ln1, ln2)
-    let stemp = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-    if &selection == 'inclusive' && len(strtrans(stemp[len(stemp) - 1:])) == 4
-        let lines[-1] = lines[-1][: col2 + 1]
-    else
-        let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-    endif
-    let lines[0] = lines[0][col1 - 1:]
-    return join(lines, "\n")
+    let regTmp = @a
+    exec "normal gv\"ay"
+    let vtext = @a
+    let @a = regTmp
+    return vtext
 endfunction
 
 function! s:WinConfig() abort

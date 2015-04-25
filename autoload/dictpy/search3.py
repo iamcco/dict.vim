@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*-
 
 """
-Last Change: 2015-04-24
+Last Change: 2015-04-25
 Maintainer: iamcco <ooiss@qq.com>
 Github: http://github.com/iamcco <年糕小豆汤>
 Version: 1.0.0
