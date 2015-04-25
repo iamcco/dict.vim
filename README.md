@@ -5,6 +5,7 @@
 
 ![操作](./operation.gif)
 ![操作W](./DictW.gif)
+![操作R](./DictR.gif)
 
 ### 安装 ###
 
@@ -39,13 +40,13 @@
     vmap <silent> <Plug>DictWVSearch
     --可视化模式下，<Leader>w 即可翻译选中的文本，并且在Dict新窗口显示
 
+**Dict窗口中 `q` 键关闭Dict窗口**
+
     nmap <silent> <Leader><Leader>r <Plug>DictRSearch
     --普通模式下，<Leader><Leader>r 即可翻译光标下的单词，并替换为翻译的结果
 
     vmap <silent> <Leader><Leader>r <Plug>DictRVSearch
     --可视化模式下，<Leader><Leader>r 即可翻译光标下的单词，并替换为翻译的结果
-
-*Dict窗口中 `q` 键关闭Dict窗口*
 
 在vim配置文件中，可以把 `<Leader>d`, `<Leader>w` 或者 `<Leader><Leader>r` 配置为你设置的快捷键
 
