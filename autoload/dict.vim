@@ -87,6 +87,8 @@ function! s:WinConfig() abort
     setl textwidth=0
     setl nospell
     setl nofoldenable
+    setl conceallevel=3
+    setl concealcursor=icvn
 
     nnoremap <silent><buffer> q :close<CR>
 endfunction

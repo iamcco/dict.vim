@@ -46,32 +46,32 @@ def dealComplex(searchResult):
     queryStr = ( (item[0], item[1].strip()) for item in enumerate(queryStr) if item[1].strip() != '' )
     for eachline in queryStr:
         if eachline[0] == 0:
-            cbuf.append(u'查找：%s' % eachline[1])
+            cbuf.append(u'查找：_*_DictSearchStart_*_%s_*_DictSearchEnd_*_' % eachline[1])
         else:
-            cbuf.append(u'      %s' % eachline[1])
+            cbuf.append(u'      _*_DictSearchStart_*_%s_*_DictSearchEnd_*_' % eachline[1])
     cbuf.append('')
     tranlas = ( item for item in enumerate(searchResult['translation']) )
     for eachline in tranlas:
         if eachline[0] == 0:
-            cbuf.append(u'翻译：%s' % eachline[1])
+            cbuf.append(u'翻译：_*_DictResultStart_*_%s_*_DictResultEnd_*_' % eachline[1])
         else:
-            cbuf.append(u'      %s' % eachline[1])
+            cbuf.append(u'      _*_DictResultStart_*_%s_*_DictResultEnd_*_' % eachline[1])
     if 'basic' in searchResult and 'explains' in searchResult['basic']:
         cbuf.append('')
         explains = ( item for item in enumerate(searchResult['basic']['explains']) )
         for eachline in explains:
             if eachline[0] == 0:
-                cbuf.append(u'解释：%s' % eachline[1])
+                cbuf.append(u'解释：_*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
             else:
-                cbuf.append(u'      %s' % eachline[1])
+                cbuf.append(u'      _*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
     if 'web' in searchResult:
         cbuf.append('')
         webs = ( item for item in enumerate(searchResult['web']) )
         for eachline in webs:
             if eachline[0] == 0:
-                cbuf.append(u'网络：%s：%s' % (eachline[1]['key'], ','.join(eachline[1]['value'])))
+                cbuf.append(u'网络：_*_DictWebStart_*_%s：%s_*_DictWebEnd_*_' % (eachline[1]['key'], ','.join(eachline[1]['value'])))
             else:
-                cbuf.append(u'      %s：%s' % (eachline[1]['key'], ','.join(eachline[1]['value'])))
+                cbuf.append(u'      _*_DictWebStart_*_%s：%s_*_DictWebEnd_*_' % (eachline[1]['key'], ','.join(eachline[1]['value'])))
     vim.command('0d _')
     vim.command('setl nomodifiable')
 
