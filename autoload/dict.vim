@@ -11,19 +11,19 @@
 if !exists('g:dict_py_version')
     if has('python')
         let g:dict_py_version = 2
-        let s:py_cmd = 'py'
+        let s:py_cmd = 'py '
     elseif has('python3')
         let g:dict_py_version = 3
-        let s:py_cmd = 'py3'
+        let s:py_cmd = 'py3 '
     else
         echoerr 'Error: dict.vim requires vim has python/python3 features'
         finish
     endif
 else
     if g:dict_py_version == 2
-        let s:py_cmd = 'py'
+        let s:py_cmd = 'py '
     else
-        let s:py_cmd = 'py3'
+        let s:py_cmd = 'py3 '
     endif
 endif
 
@@ -88,7 +88,7 @@ function! s:WinConfig() abort
     setl nospell
     setl nofoldenable
 
-    nnoremap <silent><buffer> q     :close<CR>
+    nnoremap <silent><buffer> q :close<CR>
 endfunction
 
 function! s:OpenWindow() abort
@@ -103,14 +103,14 @@ function! s:OpenWindow() abort
 endfunction
 
 "python/python3 import init
-exec s:py_cmd . ' import vim'
-exec s:py_cmd . ' import sys'
-exec s:py_cmd . ' cwd = vim.eval("expand(\"<sfile>:p:h\")")'
-exec s:py_cmd . ' sys.path.insert(0,cwd)'
+exec s:py_cmd . 'import vim'
+exec s:py_cmd . 'import sys'
+exec s:py_cmd . 'cwd = vim.eval("expand(\"<sfile>:p:h\")")'
+exec s:py_cmd . 'sys.path.insert(0,cwd)'
+exec s:py_cmd . 'from dictpy import search' . g:dict_py_version
 
 function! s:DictSearch(queryWords, searchType) abort
 
-    exec s:py_cmd . ' from dictpy import search' . g:dict_py_version
-    exec s:py_cmd . ' search' . g:dict_py_version . '.dictSearch()'
+    exec s:py_cmd . 'search' . g:dict_py_version . '.dictSearch()'
 
 endfunction
