@@ -107,10 +107,10 @@ exec s:py_cmd . 'import vim'
 exec s:py_cmd . 'import sys'
 exec s:py_cmd . 'cwd = vim.eval("expand(\"<sfile>:p:h\")")'
 exec s:py_cmd . 'sys.path.insert(0,cwd)'
-exec s:py_cmd . 'from dictpy import search' . g:dict_py_version
+exec s:py_cmd . 'from dictpy import search'
 
 function! s:DictSearch(queryWords, searchType) abort
 
-    exec s:py_cmd . 'search' . g:dict_py_version . '.dictSearch()'
+    exec s:py_cmd . 'search.dictSearch()'
 
 endfunction
