@@ -8,7 +8,11 @@
 "Version: 1.0.0
 "===============================================================================
 
-if !exists('g:debug_dict') && exists('g:loaded_dict') && !has('python')
+if !has('python') && !has('python3')
+    finish
+endif
+
+if !exists('g:debug_dict') && exists('g:loaded_dict')
     finish
 endif
 let g:loaded_dict= 1
