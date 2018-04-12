@@ -17,15 +17,20 @@ else:
 from dictpy.common import cData,dictShow
 
 def dictSearch():
+    isDebug = vim.eval('exists("g:debug_dict")')
     searchType = vim.eval('a:searchType')
     queryWords = vim.eval('iconv(a:queryWords, &encoding, "utf-8")')
     initData = cData['info'][1:] + (urllib.quote(queryWords),)
     queryUrl   = cData['info'][0] % initData
-    dataBack   = urllib.urlopen(queryUrl).read().decode('utf-8')
+    dataBack   = urllib.urlopen(queryUrl).read()
     try:
-        dataJson   = json.loads(dataBack)
+        dataJson   = json.loads(dataBack.decode('utf-8'))
         dictShow(dataJson, searchType)
     except ValueError:
+        if isDebug == '1':
+            print(u'==================== open api response start ========================')
+            print(dataBack)
+            print(u'==================== open api response end ==========================')
         print(cData['errorCode']['noQuery'])
 
 __all__ = ['dictSearch']
