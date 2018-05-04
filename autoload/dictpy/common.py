@@ -30,8 +30,9 @@ def dealSimple(searchResult):
     translation = searchResult['translation']
     translation = qw + ' ==> ' + '\n'.join(translation)
     try:
+        phonetic = searchResult['basic']['phonetic']
         explains = searchResult['basic']['explains']
-        explains = ' @ ' + ' '.join(explains)
+        explains = ' [' + phonetic + '] ' + ' '.join(explains)
     except KeyError:
         explains = ''
     print(translation + explains)
@@ -56,14 +57,24 @@ def dealComplex(searchResult):
             cbuf.append(u'翻译：_*_DictResultStart_*_%s_*_DictResultEnd_*_' % eachline[1])
         else:
             cbuf.append(u'      _*_DictResultStart_*_%s_*_DictResultEnd_*_' % eachline[1])
-    if 'basic' in searchResult and 'explains' in searchResult['basic']:
-        cbuf.append('')
-        explains = ( item for item in enumerate(searchResult['basic']['explains']) )
-        for eachline in explains:
-            if eachline[0] == 0:
-                cbuf.append(u'解释：_*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
-            else:
-                cbuf.append(u'      _*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
+
+    if 'basic' in searchResult:
+        if 'uk-phonetic' in searchResult['basic']:
+            uk_phonetic = '[' + searchResult['basic']['uk-phonetic'] + ']'
+            cbuf.append(u'英标：_*_DictResultStart_*_%s_*_DictResultEnd_*_' % uk_phonetic)
+
+        if 'us-phonetic' in searchResult['basic']:
+            us_phonetic = '[' + searchResult['basic']['us-phonetic'] + ']'
+            cbuf.append(u'美标：_*_DictResultStart_*_%s_*_DictResultEnd_*_' % us_phonetic)
+
+        if 'explains' in searchResult['basic']:
+            cbuf.append('')
+            explains = ( item for item in enumerate(searchResult['basic']['explains']) )
+            for eachline in explains:
+                if eachline[0] == 0:
+                    cbuf.append(u'解释：_*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
+                else:
+                    cbuf.append(u'      _*_DictNounStart_*_%s_*_DictNounEnd_*_' % eachline[1])
     if 'web' in searchResult:
         cbuf.append('')
         webs = ( item for item in enumerate(searchResult['web']) )
