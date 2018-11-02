@@ -20,12 +20,18 @@
 
 ### 使用和设置 ###
 
-一下是默认的有道openapi的key：
+以下是默认的有道openapi的key：
 
     let g:api_key = "1932136763"
     let g:keyfrom = "aioiyuuko"
 
 你可以设置成你自己申请的
+
+代理设置：
+
+    let g:dict_proxy = "SOCKS5://127.0.0.1:1080"
+
+代理依赖 pysocks，支持 HTTP, SOCKS4, SOCKS5 协议
 
 默认快捷键绑定：
 

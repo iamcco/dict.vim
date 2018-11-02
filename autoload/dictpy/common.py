@@ -10,6 +10,38 @@ Version: 1.0.0
 
 import vim
 
+proxy_url = vim.eval('g:dict_proxy')
+if proxy_url != '':
+    import socket
+    import socks
+    if vim.eval('g:dict_py_version') == '2':
+        from urlparse import urlparse
+    else:
+        from urllib.parse import urlparse
+
+    schemes = {
+        'http': (socks.HTTP, 80),
+        'socks5': (socks.SOCKS5, 1080),
+        'socks4': (socks.SOCKS4, 1080),
+        'socks': (socks.SOCKS4, 1080),
+    }
+
+
+    url_components = urlparse(proxy_url)
+    protocol, port = schemes[url_components.scheme.lower()]
+
+    proxy_args = (
+        protocol,
+        url_components.hostname,
+        url_components.port or port,
+        True,  # Remote DNS
+        url_components.username,
+        url_components.password,
+    )
+
+    socks.set_default_proxy(*proxy_args)
+    socket.socket = socks.socksocket
+
 cData = {
     'errorCode':{
         '0': u'success',

@@ -33,6 +33,11 @@ if !exists('g:api_key') || !exists('g:keyfrom')
     let g:keyfrom = 'aioiyuuko'
 endif
 
+if !exists('g:dict_proxy')
+    let g:dict_proxy = ''
+endif
+
+
 "有道openapi
 let s:query_url = 'http://fanyi.youdao.com/openapi.do?keyfrom=%s&key=%s&type=data&doctype=json&version=1.1&q=%s'
 
