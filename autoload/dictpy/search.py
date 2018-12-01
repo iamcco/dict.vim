@@ -22,7 +22,11 @@ def dictSearch():
     queryWords = vim.eval('iconv(a:queryWords, &encoding, "utf-8")')
     initData = cData['info'][1:] + (urllib.quote(queryWords),)
     queryUrl   = cData['info'][0] % initData
-    dataBack   = urllib.urlopen(queryUrl).read()
+    try:
+        dataBack   = urllib.urlopen(queryUrl).read()
+    except:
+        print(u'查询失败！检查网络是否正常')
+        return
     try:
         dataJson   = json.loads(dataBack.decode('utf-8'))
         dictShow(dataJson, searchType)
